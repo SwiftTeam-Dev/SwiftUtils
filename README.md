@@ -1,7 +1,7 @@
 <br/>
 <p align="center">
   <a href="https://github.com/SwiftTeam-Dev/SwiftUtils">
-    <img src="https://github.com/SwiftTeam-Dev/SwiftUtils/blob/Main/assets/icon.png?raw=true" alt="Logo" width="80" height="80">
+    <img src="https://github.com/SwiftTeam-Dev/SwiftUtils/blob/Main/assets/text-banner.png?raw=true" alt="Logo" width="200" height="30">
   </a>
 </p>
 
@@ -11,7 +11,7 @@
   Your new core plugin for your Minecraft server.
   <br/>
   <br/>
-  <a href="https://github.com/SwiftTeam-Dev/SwiftUtils"><strong>Explore the docs »</strong></a>
+  <a href="https://"><strong>Check the wiki »</strong></a>
   <br/>
   <br/>
   <a href="https://github.com/SwiftTeam-Dev/SwiftUtils/issues">Report Bug</a>
@@ -19,7 +19,13 @@
   <a href="https://github.com/SwiftTeam-Dev/SwiftUtils/issues">Request Feature</a>
 </p>
 
-![Downloads](https://img.shields.io/github/downloads/SwiftTeam-Dev/SwiftUtils/total) ![Contributors](https://img.shields.io/github/contributors/SwiftTeam-Dev/SwiftUtils?color=dark-green) ![Issues](https://img.shields.io/github/issues/SwiftTeam-Dev/SwiftUtils) ![License](https://img.shields.io/github/license/SwiftTeam-Dev/SwiftUtils)
+<div align="center">
+  [![Download](https://img.shields.io/github/downloads/SwiftTeam-Dev/SwiftUtils/total?style=for-the-badge)](https://github.com/SwiftTeam-Dev/SwiftUtils/releases/latest)
+  [![Issues](https://img.shields.io/github/issues/SwiftTeam-Dev/SwiftUtils?style=for-the-badge)](https://github.com/SwiftTeam-Dev/SwiftUtils/issues)
+  [![Contributors](https://img.shields.io/github/contributors/SwiftTeam-Dev/SwiftUtils?color=dark-green&style=for-the-badge)](https://github.com/SwiftTeam-Dev/SwiftUtils?tab=readme-ov-file#authors)
+  [![License](https://img.shields.io/badge/License-GNU%20General%20Public%20License%20v3.0-blue?style=for-the-badge)](https://github.com/SwiftTeam-Dev/SwiftUtils/blob/Main/LICENSE)
+  [![CodeFactor](https://www.codefactor.io/repository/github/SwiftTeam-Dev/SwiftUtils/badge?style=for-the-badge)](https://www.codefactor.io/repository/github/SwiftTeam-Dev/SwiftUtils)
+</div>
 
 ## Table Of Contents
 
