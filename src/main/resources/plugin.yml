@@ -1,1 +1,18 @@
+main: fr.swiftteam.swiftutils.Main
+
+
 name: SwiftUtils
+version: 1.0.0
+api-version: 1.13
+description: Your new core plugin for your Minecraft server.
+
+
+author: SwiftTeam (https://github.com/SwiftTeam-Dev)
+website: https://github.com/SwiftTeam-Dev
+
+
+commands:
+
+  swiftUtils:
+    description: This is the main SwiftUtils command, with which you can find out more about the plugin.
+    aliases: su
