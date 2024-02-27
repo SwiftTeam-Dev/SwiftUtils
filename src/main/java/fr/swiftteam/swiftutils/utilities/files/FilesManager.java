@@ -75,25 +75,21 @@ public class FilesManager {
 		if (fileToBackup.exists()) {
 			File backupFile = new File(fileToBackup.getParent(), formattedDate + "_" + fileName + ".yml");
 
-			// Vérifiez si le fichier de sauvegarde existe déjà
 			if (!backupFile.exists()) {
 				try {
 					boolean success = fileToBackup.renameTo(backupFile);
 					if (success) {
-						// Rechargez le fichier YAML
 						loadYAMLFile(fileName);
 						return true;
 					}
 				} catch (SecurityException e) {
 					e.printStackTrace();
 				}
-			} else {
-				System.out.println("Le fichier de sauvegarde existe déjà : " + backupFile.getAbsolutePath());
 			}
-		} else {
-			System.out.println("Le fichier à sauvegarder n'existe pas : " + fileToBackup.getAbsolutePath());
-		}
 
+		} else {
+			loadYAMLFile(fileName);
+		}
 		return false;
 	}
 }
