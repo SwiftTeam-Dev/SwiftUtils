@@ -19,9 +19,24 @@
 # +------------------------------------------------------+ #
 ############################################################
 
+
 # Please do not change this value as it may cause the file to be reset.
-# Default: 1.0
-config-version: "1.0"
+# Default: 1.1
+config-version: "1.1"
+
+
+############################################################
+# +------------------------------------------------------+ #
+# |                       Modules                        | #
+# +------------------------------------------------------+ #
+############################################################
+
+
+# In this section, set true to enable the module, and set false to disable it.
+# More detailed information about each module is available here: https://swiftteam.gitbook.io/swiftutils/modules
+modules:
+  announcementMessages: true
+
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -29,7 +44,10 @@ config-version: "1.0"
 # +------------------------------------------------------+ #
 ############################################################
 
-# Here you can change the permissions for the different commands.
-# Check default permissions here: https://swiftteam.gitbook.io/swiftutils/permissions
-commands:
-  swiftutils: swiftutils.command.swiftutils
+
+permissions:
+
+  # Here you can change the permissions for the different commands.
+  # Check default permissions here: https://swiftteam.gitbook.io/swiftutils/permissions
+  commands:
+    swiftutils: swiftutils.command.swiftutils
