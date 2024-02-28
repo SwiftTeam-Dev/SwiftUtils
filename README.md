@@ -22,11 +22,11 @@
   <a href="https://github.com/SwiftTeam-Dev/SwiftUtils/releases/latest">
     <img src="https://img.shields.io/github/downloads/SwiftTeam-Dev/SwiftUtils/total?style=for-the-badge" align="center" alt="downloads">
   </a>
-  -
+  ‎ ‎
   <a href="https://github.com/SwiftTeam-Dev/SwiftUtils/issues">
     <img src="https://img.shields.io/github/issues/SwiftTeam-Dev/SwiftUtils?style=for-the-badge" align="center" alt="issues">
   </a>
-  - 
+  ‎ ‎
   <a href="https://github.com/SwiftTeam-Dev/SwiftUtils#authors">
     <img src="https://img.shields.io/github/contributors/SwiftTeam-Dev/SwiftUtils?color=dark-green&style=for-the-badge" align="center" alt="contributors">
   </a>
@@ -35,7 +35,7 @@
   <a href="https://github.com/SwiftTeam-Dev/SwiftUtils/blob/Main/LICENSE">
     <img src="https://img.shields.io/badge/License-MIT%20License-blue?style=for-the-badge" align="center" alt="licence">
   </a>
-  - 
+  ‎‎
   <a href="https://www.codefactor.io/repository/github/SwiftTeam-Dev/SwiftUtils">
     <img src="https://www.codefactor.io/repository/github/SwiftTeam-Dev/SwiftUtils/badge?style=for-the-badge" align="center" alt="authors">
   </a>
