@@ -24,12 +24,12 @@ public class FilesManager {
 	}
 
 
-	public void reloadConfigurationFile() {
+	public void loadConfigurationFile() {
 		loadYAMLFile("configuration");
 	}
 
 
-	public void reloadMessagesFile() {
+	public void loadMessagesFile() {
 		loadYAMLFile("messages");
 	}
 
