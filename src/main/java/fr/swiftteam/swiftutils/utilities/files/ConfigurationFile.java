@@ -17,7 +17,12 @@ public class ConfigurationFile {
 	}
 
 
-	public String getPermission(String commandName) {
-		return yamlFile.getString("commands." + commandName);
+	public String getCommandPermission(String commandName) {
+		return yamlFile.getString("permissions.commands." + commandName);
+	}
+
+
+	public boolean isModuleEnabled(String moduleName) {
+		return yamlFile.getBoolean("modules." + moduleName);
 	}
 }
