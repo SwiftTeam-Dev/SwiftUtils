@@ -1,6 +1,7 @@
 package fr.swiftteam.swiftutils.commands.admin;
 
 import fr.swiftteam.swiftutils.Main;
+import fr.swiftteam.swiftutils.managers.LoadingManager;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -11,6 +12,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,14 +25,13 @@ public class CommandSwiftUtils implements CommandExecutor, TabCompleter {
 
 		final String prefix = Main.getMessagesFile().getPrefix();
 
-		// SEND ABOUT MESSAGE TO CONSOLE
 		if (!(sender instanceof Player player)) {
 			sendAboutMessageToConsole(sender);
 
 		} else {
 
 			// SEND ABOUT MESSAGE TO PLAYER WITHOUT PERMISSION
-			if (!player.hasPermission(Main.getConfigurationFile().getPermission("swiftutils"))) {
+			if (!player.hasPermission(Main.getConfigurationFile().getCommandPermission("swiftutils"))) {
 				sendAboutMessageToPlayer(player);
 
 			} else {
@@ -68,11 +70,11 @@ public class CommandSwiftUtils implements CommandExecutor, TabCompleter {
 						sendVersionMessage(player);
 
 						// RELOAD FILES
-					}else if (firstArgument.equalsIgnoreCase("reload")) {
-						reloadPluginFiles(player);
+					} else if (firstArgument.equalsIgnoreCase("reload")) {
+						reloadPlugin(player);
 					}
 				}
-			}
+			 }
 		}
 		return false;
 	}
@@ -80,9 +82,12 @@ public class CommandSwiftUtils implements CommandExecutor, TabCompleter {
 
 	private void sendAboutMessageToConsole(CommandSender sender) {
 		sender.sendMessage("");
+		sender.sendMessage("§8» §6Sorry, but the console can't use this command. Please join the server");
+		sender.sendMessage("  §6with a suffisant permission in order to use this command.");
+		sender.sendMessage("");
 		sender.sendMessage("§8» §7This plugin was developed by the §b§lSwift§6§lTeam §8(§7§ohttps://github.com/SwiftTeam-Dev§8)§7.");
-		sender.sendMessage("   §7Version: §e" + Main.getInstance().getDescription().getVersion());
-		sender.sendMessage("   §7Source code: §6§ohttps://github.com/SwiftTeam-Dev/SwiftUtils");
+		sender.sendMessage("  §7Version: §e" + Main.getInstance().getDescription().getVersion());
+		sender.sendMessage("  §7Source code: §6§ohttps://github.com/SwiftTeam-Dev/SwiftUtils");
 		sender.sendMessage("");
 	}
 
@@ -143,16 +148,22 @@ public class CommandSwiftUtils implements CommandExecutor, TabCompleter {
 	}
 
 
-	private void reloadPluginFiles(CommandSender sender) {
+	private void reloadPlugin(CommandSender sender) {
 
 		final String prefix = Main.getMessagesFile().getPrefix();
 
-		sender.sendMessage(prefix + "§7Reloading the §econfiguration §7file...");
-		Main.getFilesManager().reloadConfigurationFile();
-		sender.sendMessage(prefix + "§7Reloading §acomplete§7.");
-		sender.sendMessage(prefix + "§7Reloading the §6messages §7file...");
-		Main.getFilesManager().reloadMessagesFile();
-		sender.sendMessage(prefix + "§7Reloading §acomplete§7.");
+		Instant reloadingStartInstant = Instant.now();
+		sender.sendMessage(prefix + "§7Reloading SwiftUtils...");
+
+		boolean reloadSuccess = LoadingManager.reloadPlugin();
+
+		Instant reloadingEndInstant = Instant.now();
+		long milliseconds = Duration.between(reloadingStartInstant, reloadingEndInstant).toMillis();
+		sender.sendMessage(prefix + "§7Reloading SwiftUtils §acomplete§7! §8(§e" + milliseconds + "ms§8)");
+
+		if (!reloadSuccess) {
+			sender.sendMessage(prefix + "§cUnfortunately, a problem occurred during reloading. Please check the console.");
+		}
 	}
 
 
