@@ -1,18 +1,22 @@
 package fr.swiftteam.swiftutils;
 
 import fr.swiftteam.swiftutils.commands.admin.CommandSwiftUtils;
+import fr.swiftteam.swiftutils.managers.LoadingManager;
+import fr.swiftteam.swiftutils.managers.ModulesManager;
 import fr.swiftteam.swiftutils.utilities.ConsoleLogger;
 import fr.swiftteam.swiftutils.utilities.files.ConfigurationFile;
 import fr.swiftteam.swiftutils.utilities.files.MessagesFile;
 import fr.swiftteam.swiftutils.utilities.files.FilesManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitScheduler;
 
 public class Main extends JavaPlugin {
 
 	private static Main instance;
 	private static FilesManager filesManager;
+	private static BukkitScheduler bukkitScheduler;
 
-	private static final String configurationFileVersion = "1.0";
+	private static final String configurationFileVersion = "1.1";
 	private static final String messagesFileVersion = "1.0";
 
 
@@ -21,52 +25,20 @@ public class Main extends JavaPlugin {
 
 		instance = this;
 		filesManager = new FilesManager();
+		bukkitScheduler = this.getServer().getScheduler();
 
+		// PLUGIN NOW LOADING
 		ConsoleLogger.console("§7The plugin is now §6loading§7...");
 
-		filesManager.reloadConfigurationFile();
-		filesManager.reloadMessagesFile();
-
-		ConsoleLogger.console("");
-		ConsoleLogger.console("§7Checking for configuration file version...");
-		if (filesManager.getConfigurationFile().getConfigVersion().equals(configurationFileVersion)) {
-			ConsoleLogger.console("§7Your configuration file is §aup to date§7.");
+		if (LoadingManager.loadPlugin()) {
+			// PLUGIN STARTED SUCCESSFULLY
+			ConsoleLogger.console("");
+			ConsoleLogger.console("§7The plugin has been §aloaded §7successfully!");
 
 		} else {
-			ConsoleLogger.console("§7A new version is §aavailable §7for your configuration file.");
-			ConsoleLogger.console("§6Updating of the configuration file...");
-
-			if (filesManager.saveConfigurationFile()) {
-				ConsoleLogger.console("§aYour configuration file has been updated.");
-			} else {
-				ConsoleLogger.console("§cAn error has occurred while saving your current configuration file.");
-				ConsoleLogger.console("§7- §ePlease save your current configuration file, delete it,");
-				ConsoleLogger.console("§7- §eand finally restart the plugin to create a new one.");
-			}
+			// PLUGIN NOT STARTED, AND WITH A PROBLEM
+			this.onDisable();
 		}
-
-		ConsoleLogger.console("");
-		ConsoleLogger.console("§7Checking for message file version...");
-		if (filesManager.getMessagesFile().getMessagesVersion().equals(messagesFileVersion)) {
-			ConsoleLogger.console("§7Your messages file is §aup to date§7.");
-
-		} else {
-			ConsoleLogger.console("§7A new version is §aavailable §7for your configuration file.");
-			ConsoleLogger.console("§6Updating of the configuration file...");
-
-			if (filesManager.saveMessagesFile()) {
-				ConsoleLogger.console("§aYour message file has been updated.");
-			} else {
-				ConsoleLogger.console("§cAn error has occurred while saving your current message file.");
-				ConsoleLogger.console("§7- §ePlease save your current message file, delete it,");
-				ConsoleLogger.console("§7- §eand finally restart the plugin to create a new one.");
-			}
-		}
-
-		getCommand("swiftUtils").setExecutor(new CommandSwiftUtils());
-
-		ConsoleLogger.console("");
-		ConsoleLogger.console("§7The plugin has been §aloaded §7successfully!");
 	}
 
 
@@ -107,5 +79,10 @@ public class Main extends JavaPlugin {
 
 	public static String getMessagesFileVersion() {
 		return messagesFileVersion;
+	}
+
+
+	public static BukkitScheduler getScheduler() {
+		return bukkitScheduler;
 	}
 }
