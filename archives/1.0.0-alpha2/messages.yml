@@ -1,0 +1,37 @@
+############################################################
+# +------------------------------------------------------+ #
+# |                     Informations                     | #
+# +------------------------------------------------------+ #
+############################################################
+
+# This is the messages file for SwiftUtils.
+
+# If you need help with the configuration of the plugin,
+# you can join our discord server at: https://discord.gg/fSzK79TAYf
+
+# For more information about how to configure SwiftUtils, check our Wiki at: https://swiftteam.gitbook.io/swiftutils
+
+############################################################
+# +------------------------------------------------------+ #
+# |                    Main Messages                     | #
+# +------------------------------------------------------+ #
+############################################################
+
+# Please do not change this value as it may cause the file to be reset.
+# Default: 1.0
+messages-version: "1.0"
+
+# Change the prefix sent at the beginning of most sent messages.
+# Default: &8[&b&lSwift&6&lUtils&8] &r
+prefix: "&8[&b&lSwift&6&lUtils&8] &r"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                   Error Messages                     | #
+# +------------------------------------------------------+ #
+############################################################
+
+errors:
+  argumentMustBeNumber: "&cYou must enter a valid number."
+
+  helpPageNotFound: "&cThis page cannot be found."
