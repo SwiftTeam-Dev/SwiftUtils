@@ -1,6 +1,7 @@
 package fr.swiftteam.swiftutils.utilities.files;
 
 import fr.swiftteam.swiftutils.Main;
+import fr.swiftteam.swiftutils.utilities.files.modules.AnnouncementMessagesFile;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -12,6 +13,7 @@ public class FilesManager {
 
 	protected ConfigurationFile configurationFile;
 	protected MessagesFile messagesFile;
+	protected AnnouncementMessagesFile announcementMessagesFile;
 
 
 	public ConfigurationFile getConfigurationFile() {
@@ -24,6 +26,11 @@ public class FilesManager {
 	}
 
 
+	public AnnouncementMessagesFile getAnnouncementMessagesFile() {
+		return announcementMessagesFile;
+	}
+
+
 	public void loadConfigurationFile() {
 		loadYAMLFile("configuration");
 	}
@@ -31,6 +38,11 @@ public class FilesManager {
 
 	public void loadMessagesFile() {
 		loadYAMLFile("messages");
+	}
+
+
+	public void loadAnnouncementMessagesFile() {
+		loadYAMLFile("modules/announcementMessages");
 	}
 
 
@@ -62,6 +74,9 @@ public class FilesManager {
 
 		} else if (fileName.equals("messages")) {
 			messagesFile = new MessagesFile(yamlConfiguration);
+
+		} else if (fileName.equals("modules/announcementMessages")) {
+			announcementMessagesFile = new AnnouncementMessagesFile(yamlConfiguration);
 		}
 	}
 
