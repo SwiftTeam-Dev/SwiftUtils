@@ -1,12 +1,14 @@
 package fr.swiftteam.swiftutils;
 
-import fr.swiftteam.swiftutils.commands.admin.CommandSwiftUtils;
 import fr.swiftteam.swiftutils.managers.LoadingManager;
-import fr.swiftteam.swiftutils.managers.ModulesManager;
+import fr.swiftteam.swiftutils.modules.AnnouncementMessages.ModuleManagerAM;
+import fr.swiftteam.swiftutils.nms.NMSUtils;
+import fr.swiftteam.swiftutils.nms.NMS_v1_8_R3;
 import fr.swiftteam.swiftutils.utilities.ConsoleLogger;
 import fr.swiftteam.swiftutils.utilities.files.ConfigurationFile;
 import fr.swiftteam.swiftutils.utilities.files.MessagesFile;
 import fr.swiftteam.swiftutils.utilities.files.FilesManager;
+import fr.swiftteam.swiftutils.utilities.files.modules.AnnouncementMessagesFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
@@ -15,6 +17,7 @@ public class Main extends JavaPlugin {
 	private static Main instance;
 	private static FilesManager filesManager;
 	private static BukkitScheduler bukkitScheduler;
+	private static NMSUtils nmsUtils;
 
 	private static final String configurationFileVersion = "1.1";
 	private static final String messagesFileVersion = "1.0";
@@ -47,8 +50,24 @@ public class Main extends JavaPlugin {
 
 		ConsoleLogger.console("§7The plugin is now §6disabling§7...");
 
+		ModuleManagerAM.stopLoadedAnnouncements();
+
 		ConsoleLogger.console("");
 		ConsoleLogger.console("§7The plugin has been §adisabled §7successfully!");
+	}
+
+
+	public static boolean initializeNMSUtils() {
+
+		String serverVersion = LoadingManager.getServerVersion();
+		if (serverVersion == null) {
+			return false;
+		}
+
+		if (serverVersion.equals("v1_8_R3")) {
+			nmsUtils = new NMS_v1_8_R3();
+		}
+		return nmsUtils != null;
 	}
 
 
@@ -64,6 +83,11 @@ public class Main extends JavaPlugin {
 
 	public static MessagesFile getMessagesFile() {
 		return filesManager.getMessagesFile();
+	}
+
+
+	public static AnnouncementMessagesFile getAnnouncementMessagesFile() {
+		return filesManager.getAnnouncementMessagesFile();
 	}
 
 
@@ -84,5 +108,10 @@ public class Main extends JavaPlugin {
 
 	public static BukkitScheduler getScheduler() {
 		return bukkitScheduler;
+	}
+
+
+	public static NMSUtils getNmsUtils() {
+		return nmsUtils;
 	}
 }
