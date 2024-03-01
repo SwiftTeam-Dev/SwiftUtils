@@ -44,7 +44,7 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- NMS 1.8.8
+		<!-- NMS 1.8.8 -->
 		<dependency>
 			<groupId>local.spigot.nms</groupId>
 			<artifactId>AllSpigotNMS</artifactId>
@@ -52,7 +52,6 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/../../NMS VERSIONS/NMS-1.8.8-R0.1-SNAPSHOT-latest.jar</systemPath>
 		</dependency>
-		-->
 
 	</dependencies>
 
