@@ -3,10 +3,23 @@ package fr.swiftteam.swiftutils.managers;
 import fr.swiftteam.swiftutils.Main;
 import fr.swiftteam.swiftutils.commands.admin.CommandSwiftUtils;
 import fr.swiftteam.swiftutils.utilities.ConsoleLogger;
+import org.bukkit.Bukkit;
 
 public class LoadingManager {
 
+
 	public static boolean loadPlugin() {
+
+		// INITIALIZE NMS
+		ConsoleLogger.console("");
+		ConsoleLogger.console("§7Implementing NMS...");
+
+		if (Main.initializeNMSUtils()) {
+			ConsoleLogger.console("§7Implementation §acomplete §7for §eNMS " + getServerVersion());
+
+		} else {
+			ConsoleLogger.console("§cAn error occurred during implementation for §6" + getServerVersion());
+		}
 
 		// CONFIGURATION AND MESSAGES FILES LOADING
 		Main.getFilesManager().loadConfigurationFile();
@@ -111,6 +124,15 @@ public class LoadingManager {
 				ConsoleLogger.console("§7- §eand finally restart the plugin to create a new one.");
 				return false;
 			}
+		}
+	}
+
+
+	public static String getServerVersion() {
+		try {
+			return Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
+		} catch (ArrayIndexOutOfBoundsException whatVersionAreYouUsingException) {
+			return null;
 		}
 	}
 }
