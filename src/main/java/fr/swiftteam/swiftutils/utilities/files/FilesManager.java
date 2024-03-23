@@ -2,10 +2,9 @@ package fr.swiftteam.swiftutils.utilities.files;
 
 import fr.swiftteam.swiftutils.Main;
 import fr.swiftteam.swiftutils.utilities.files.modules.AnnouncementMessagesFile;
-import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import java.io.File;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -14,21 +13,6 @@ public class FilesManager {
 	protected ConfigurationFile configurationFile;
 	protected MessagesFile messagesFile;
 	protected AnnouncementMessagesFile announcementMessagesFile;
-
-
-	public ConfigurationFile getConfigurationFile() {
-		return configurationFile;
-	}
-
-
-	public MessagesFile getMessagesFile() {
-		return messagesFile;
-	}
-
-
-	public AnnouncementMessagesFile getAnnouncementMessagesFile() {
-		return announcementMessagesFile;
-	}
 
 
 	public void loadConfigurationFile() {
@@ -58,16 +42,14 @@ public class FilesManager {
 
 	private void loadYAMLFile(String fileName) {
 
-		File yamlFile = new File(Main.getInstance().getDataFolder(), fileName + ".yml");
+		File file = new File(Main.getInstance().getDataFolder(), fileName + ".yml");
 
-		if (!yamlFile.exists()) {
-			yamlFile.getParentFile().mkdirs();
+		if (!file.exists()) {
+			file.getParentFile().mkdirs();
 			Main.getInstance().saveResource(fileName + ".yml", false);
 		}
 
-		YamlConfiguration.loadConfiguration(yamlFile);
-		Configuration yamlConfiguration =
-				YamlConfiguration.loadConfiguration(new File(Main.getInstance().getDataFolder(), fileName + ".yml"));
+		YamlConfiguration yamlConfiguration = YamlConfiguration.loadConfiguration(file);
 
 		if (fileName.equals("configuration")) {
 			configurationFile = new ConfigurationFile(yamlConfiguration);
@@ -106,5 +88,20 @@ public class FilesManager {
 			loadYAMLFile(fileName);
 		}
 		return false;
+	}
+
+
+	public ConfigurationFile getConfigurationFile() {
+		return configurationFile;
+	}
+
+
+	public MessagesFile getMessagesFile() {
+		return messagesFile;
+	}
+
+
+	public AnnouncementMessagesFile getAnnouncementMessagesFile() {
+		return announcementMessagesFile;
 	}
 }
