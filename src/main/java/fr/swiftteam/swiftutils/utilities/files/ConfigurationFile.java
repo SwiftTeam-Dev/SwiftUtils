@@ -1,28 +1,32 @@
 package fr.swiftteam.swiftutils.utilities.files;
 
-import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 public class ConfigurationFile {
 
-	private final Configuration yamlFile;
+	private final YamlConfiguration yamlConfiguration;
 
 
-	public ConfigurationFile(Configuration yamlFile) {
-		this.yamlFile = yamlFile;
+	public ConfigurationFile(YamlConfiguration yamlConfiguration) {
+		this.yamlConfiguration = yamlConfiguration;
 	}
 
 
 	public String getConfigVersion() {
-		return yamlFile.getString("config-version");
+		String version = yamlConfiguration.getString("config-version");
+		if (version != null) {
+			return version;
+		}
+		return "0.0";
 	}
 
 
 	public String getCommandPermission(String commandName) {
-		return yamlFile.getString("permissions.commands." + commandName);
+		return yamlConfiguration.getString("permissions.commands." + commandName);
 	}
 
 
 	public boolean isModuleEnabled(String moduleName) {
-		return yamlFile.getBoolean("modules." + moduleName);
+		return yamlConfiguration.getBoolean("modules." + moduleName);
 	}
 }
