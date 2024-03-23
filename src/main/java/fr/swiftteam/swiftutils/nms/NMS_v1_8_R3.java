@@ -1,6 +1,8 @@
 package fr.swiftteam.swiftutils.nms;
 
+import net.minecraft.server.v1_8_R3.ChatComponentText;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
+import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -31,5 +33,18 @@ public class NMS_v1_8_R3 implements NMSUtils {
 
 		craftPlayer.getHandle().playerConnection.sendPacket(titlePacket);
 		craftPlayer.getHandle().playerConnection.sendPacket(subtitlePacket);
+	}
+
+
+	public void sendPlayerActionBar(Player player, String message, int stay) {
+		CraftPlayer craftPlayer = (CraftPlayer) player;
+		IChatBaseComponent actionbarComponent = IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + message + "\"}");
+
+		PacketPlayOutChat packetPlayOutChat = new PacketPlayOutChat(
+				actionbarComponent,
+				(byte) 2
+		);
+
+		craftPlayer.getHandle().playerConnection.sendPacket(packetPlayOutChat);
 	}
 }
