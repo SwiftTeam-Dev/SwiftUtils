@@ -1,28 +1,32 @@
 package fr.swiftteam.swiftutils.utilities.files;
 
-import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 public class MessagesFile {
 
-	private final Configuration yamlFile;
+	private final YamlConfiguration yamlConfiguration;
 
 
-	public MessagesFile(Configuration yamlFile) {
-		this.yamlFile = yamlFile;
+	public MessagesFile(YamlConfiguration yamlConfiguration) {
+		this.yamlConfiguration = yamlConfiguration;
 	}
 
 
 	public String getMessagesVersion() {
-		return yamlFile.getString("messages-version");
+		String version = yamlConfiguration.getString("messages-version");
+		if (version != null) {
+			return version;
+		}
+		return "0.0";
 	}
 
 
 	public String getPrefix() {
-		return yamlFile.getString("prefix").replace("&", "§");
+		return yamlConfiguration.getString("prefix").replace("&", "§");
 	}
 
 
 	public String getError(String errorName) {
-		return yamlFile.getString("errors." + errorName).replace("&", "§");
+		return yamlConfiguration.getString("errors." + errorName).replace("&", "§");
 	}
 }
