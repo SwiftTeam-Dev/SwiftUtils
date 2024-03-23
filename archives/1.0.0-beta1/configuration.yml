@@ -1,0 +1,48 @@
+############################################################
+# +------------------------------------------------------+ #
+# |                     Informations                     | #
+# +------------------------------------------------------+ #
+############################################################
+
+# This is the configuration file for SwiftUtils.
+
+# If you need help with the configuration of the plugin,
+# you can join our discord server at: https://discord.gg/fSzK79TAYf
+
+# For more information about how to configure SwiftUtils,
+# check our Wiki at: https://swiftteam.gitbook.io/wiki/v/swiftutils
+
+############################################################
+# +------------------------------------------------------+ #
+# |                    Main Settings                     | #
+# +------------------------------------------------------+ #
+############################################################
+
+# Please do not change this value as it may cause the file to be reset.
+# Default: 1.0
+config-version: "1.0"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                       Modules                        | #
+# +------------------------------------------------------+ #
+############################################################
+
+# In this section, set true to enable the module, and set false to disable it.
+# More detailed information about each module is available here:
+# https://swiftteam.gitbook.io/wiki/v/swiftutils/configuration/modules
+modules:
+  announcementMessages: true
+
+############################################################
+# +------------------------------------------------------+ #
+# |                     Permissions                      | #
+# +------------------------------------------------------+ #
+############################################################
+
+permissions:
+
+  # Here you can change the permissions for the different commands.
+  # Check default permissions here: https://swiftteam.gitbook.io/wiki/v/swiftutils/configuration/configuration-file
+  commands:
+    swiftutils: swiftutils.command.swiftutils

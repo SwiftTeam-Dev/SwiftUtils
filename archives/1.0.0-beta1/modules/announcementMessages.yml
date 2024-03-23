@@ -1,0 +1,53 @@
+############################################################
+# +------------------------------------------------------+ #
+# |                     Informations                     | #
+# +------------------------------------------------------+ #
+############################################################
+
+# This is the configuration file for announcement messages module for SwiftUtils.
+
+# If you need help with the configuration of the plugin,
+# you can join our discord server at: https://discord.gg/fSzK79TAYf
+
+# For more information about how to configure Announcement Messages module,
+# check our Wiki at:https://swiftteam.gitbook.io/wiki/v/swiftutils/configuration/translations
+
+############################################################
+# +------------------------------------------------------+ #
+# |                 Announcement Messages                | #
+# +------------------------------------------------------+ #
+############################################################
+
+
+# Add the announcement you wish to activate just here.
+# Type "/su reload" to enable correctly the new announcements.
+enabledAnnouncements:
+  - "customTitle"
+  - "customActionBar"
+  - "customBroadcast"
+
+
+announcements:
+
+  customTitle:
+    type: "TITLE"
+    frequency: 10
+    duration: 2
+    permissionNeeded: swiftutils.module.announcement.customTitle
+    title: "&aDefault Title"
+    subtitle: "&2Default Subtitle"
+
+
+  customActionBar:
+    type: "ACTIONBAR"
+    frequency: 10
+    duration: 1
+    permissionNeeded: swiftutils.module.announcement.customActionBar
+    message: "&eDefault ActionBar message!"
+
+
+  customBroadcast:
+    type: "BROADCAST"
+    frequency: 10
+    permissionNeeded: swiftutils.module.announcement.customBroadcast
+    message: "&8[&6Default broadcast&8] §fDefault message!"
