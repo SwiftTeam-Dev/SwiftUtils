@@ -9,7 +9,8 @@
 # If you need help with the configuration of the plugin,
 # you can join our discord server at: https://discord.gg/fSzK79TAYf
 
-# For more information about how to configure SwiftUtils, check our Wiki at: https://swiftteam.gitbook.io/swiftutils
+# For more translations,
+# check our Wiki at: https://swiftteam.gitbook.io/wiki/v/swiftutils/other/translations
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -33,5 +34,10 @@ prefix: "&8[&b&lSwift&6&lUtils&8] &r"
 
 errors:
   argumentMustBeNumber: "&cYou must enter a valid number."
+  argumentMustBeModuleName: "&You must enter a module name."
 
   helpPageNotFound: "&cThis page cannot be found."
+  moduleNotFound: "&cThis module cannot be found."
+
+  moduleAlreadyEnabled: "&cThis module is already enabled."
+  moduleAlreadyDisabled: "&cThis module is already disabled."
