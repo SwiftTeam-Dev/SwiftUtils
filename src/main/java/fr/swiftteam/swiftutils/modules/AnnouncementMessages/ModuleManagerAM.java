@@ -1,7 +1,6 @@
 package fr.swiftteam.swiftutils.modules.AnnouncementMessages;
 
 import fr.swiftteam.swiftutils.Main;
-import fr.swiftteam.swiftutils.utilities.ConsoleLogger;
 import fr.swiftteam.swiftutils.utilities.files.modules.AnnouncementMessagesFile;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -14,48 +13,51 @@ import java.util.Map;
 public class ModuleManagerAM {
 
 	private static Map<String, BukkitTask> activeTasks = new HashMap<>();
-
 	private static Map<String, AnnouncementMessage> loadedAnnouncements = new HashMap<>();
 
 
-	public static Map<String, AnnouncementMessage> getLoadedAnnouncements() {
-		return loadedAnnouncements;
-	}
-
-
-	public static boolean loadAnnouncementMessagesModule() {
+	public boolean loadAnnouncementMessagesModule() {
 
 		Main.getFilesManager().loadAnnouncementMessagesFile();
 
-		stopLoadedAnnouncements();
+		cancelCurrentAnnouncementTasks();
 
-		List<String> enabledAnnouncements = Main.getAnnouncementMessagesFile().getEnabledAnnouncements();
+		List<String> enabledAnnouncements = Main.getFilesManager().getAnnouncementMessagesFile().getEnabledAnnouncements();
 
 		int errorsCount = 0;
 
 		for (String announcementName : enabledAnnouncements) {
 			if (isAnnouncementValid(announcementName)) {
 				loadAnnouncementMessage(announcementName);
-				ConsoleLogger.console("§8- §fAnnouncementMessages§7: §2" + announcementName + " §ahas been loaded!");
+				Main.getConsoleLogger().console("§8- §fAnnouncementMessages§7: §2" + announcementName + " §ahas been loaded!");
 
 			} else {
-				ConsoleLogger.console("§8- §fAnnouncementMessages§7: §4" + announcementName + " §cannouncement can't be loaded!");
+				Main.getConsoleLogger().console("§8- §fAnnouncementMessages§7: §4" + announcementName + " §cannouncement can't be loaded!");
 				errorsCount += 1;
 			}
 		}
+
+		Main.getModulesManager().setModuleEnable("announcementMessages");
 		return errorsCount == 0;
 	}
 
+	public void unloadAnnouncementMessagesModule() {
+		cancelCurrentAnnouncementTasks();
+		Main.getModulesManager().setModuleDisable("announcementMessages");
 
-	protected static void loadAnnouncementMessage(String announcementName) {
+	}
 
-		AnnouncementMessagesFile.AnnouncementType type = Main.getAnnouncementMessagesFile().getAnnouncementType(announcementName);
-		int frequency = Main.getAnnouncementMessagesFile().getFrequency(announcementName);
-		int duration = Main.getAnnouncementMessagesFile().getDuration(announcementName);
-		String permissionNeeded = Main.getAnnouncementMessagesFile().getPermissionNeeded(announcementName);
-		String message = Main.getAnnouncementMessagesFile().getMessage(announcementName);
-		String title = Main.getAnnouncementMessagesFile().getTitle(announcementName);
-		String subtitle = Main.getAnnouncementMessagesFile().getSubtitle(announcementName);
+	protected void loadAnnouncementMessage(String announcementName) {
+
+		AnnouncementMessagesFile announcementMessagesFile = Main.getFilesManager().getAnnouncementMessagesFile();
+
+		String type = announcementMessagesFile.getType(announcementName);
+		int frequency = announcementMessagesFile.getFrequency(announcementName);
+		int duration = announcementMessagesFile.getDuration(announcementName);
+		String permissionNeeded = announcementMessagesFile.getPermissionNeeded(announcementName);
+		String message = announcementMessagesFile.getMessage(announcementName);
+		String title = announcementMessagesFile.getTitle(announcementName);
+		String subtitle = announcementMessagesFile.getSubtitle(announcementName);
 
 		AnnouncementMessage announcementMessage = new AnnouncementMessage(
 				announcementName, type,
@@ -67,32 +69,32 @@ public class ModuleManagerAM {
 	}
 
 
-	public static void startAnnouncement(String announcementName) {
+	private void cancelCurrentAnnouncementTasks() {
+		for (BukkitTask bukkitTask : activeTasks.values()) {
+			bukkitTask.cancel();
+		}
+		loadedAnnouncements.clear();
+	}
 
-		AnnouncementMessage announcementMessage = getLoadedAnnouncements().get(announcementName);
 
-		AnnouncementMessagesFile.AnnouncementType type = announcementMessage.getType();
+	public void startAnnouncement(String announcementName) {
 
-		String permissionNeeded = announcementMessage.getPermissionNeeded();
+		AnnouncementMessage announcementMessage = loadedAnnouncements.get(announcementName);
+		String type = announcementMessage.getType();
 		long frequency = announcementMessage.getFrequency();
 
 		activeTasks.put(announcementName, Main.getScheduler().runTaskTimer(Main.getInstance(), () -> {
 
-			if (type == AnnouncementMessagesFile.AnnouncementType.TITLE) {
-
-				int duration = announcementMessage.getDuration();
-				String title = announcementMessage.getTitle().replace("&", "§");
-				String subtitle = announcementMessage.getSubtitle().replace("&", "§");
-
-				for (Player player : Bukkit.getOnlinePlayers()) {
-					if (permissionNeeded != null) {
-						if (player.hasPermission(permissionNeeded)) {
-							Main.getNmsUtils().sendPlayerTitle(player, title, subtitle, 1, duration, 1);
-						}
-					} else {
-						Main.getNmsUtils().sendPlayerTitle(player, title, subtitle, 1, duration, 1);
-					}
-				}
+			switch (type) {
+				case "TITLE":
+					sendTitleAnnouncement(announcementMessage);
+					break;
+				case "ACTIONBAR":
+					sendActionBarAnnouncement(announcementMessage);
+					break;
+				case "BROADCAST":
+					sendBroadcastAnnouncement(announcementMessage);
+					break;
 			}
 
 		}, frequency * 20, frequency * 20));
@@ -101,49 +103,92 @@ public class ModuleManagerAM {
 	}
 
 
-	public static void stopLoadedAnnouncements() {
-		for (BukkitTask bukkitTask : activeTasks.values()) {
-			bukkitTask.cancel();
-		}
+	private void sendTitleAnnouncement(AnnouncementMessage announcementMessage) {
 
-		loadedAnnouncements.clear();
+		int duration = announcementMessage.getDuration();
+		String permissionNeeded = announcementMessage.getPermissionNeeded();
+		String title = announcementMessage.getTitle().replace("&", "§");
+		String subtitle = announcementMessage.getSubtitle().replace("&", "§");
+
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			if (permissionNeeded != null) {
+				if (player.hasPermission(permissionNeeded)) {
+					Main.getNmsUtils().sendPlayerTitle(player, title, subtitle, 1, duration, 1);
+				}
+			} else {
+				Main.getNmsUtils().sendPlayerTitle(player, title, subtitle, 1, duration, 1);
+			}
+		}
 	}
 
 
-	private static boolean isAnnouncementValid(String announcementName) {
-		AnnouncementMessagesFile.AnnouncementType type = Main.getAnnouncementMessagesFile().getAnnouncementType(announcementName);
-		int frequency = Main.getAnnouncementMessagesFile().getFrequency(announcementName);
+	private void sendActionBarAnnouncement(AnnouncementMessage announcementMessage) {
 
-		if (type == AnnouncementMessagesFile.AnnouncementType.TITLE) {
-			String title = Main.getAnnouncementMessagesFile().getTitle(announcementName);
-			String subtitle = Main.getAnnouncementMessagesFile().getSubtitle(announcementName);
-			int duration = Main.getAnnouncementMessagesFile().getDuration(announcementName);
-			return (frequency > 0 &&
-					duration > 0 &&
-					(!title.isEmpty() || !subtitle.isEmpty()));
+		int duration = announcementMessage.getDuration();
+		String permissionNeeded = announcementMessage.getPermissionNeeded();
+		String message = announcementMessage.getMessage().replace("&", "§");
+
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			if (permissionNeeded != null) {
+				if (player.hasPermission(permissionNeeded)) {
+					Main.getNmsUtils().sendPlayerActionBar(player, message, duration);
+				}
+			} else {
+				Main.getNmsUtils().sendPlayerActionBar(player, message, duration);
+			}
 		}
+	}
 
-		if (type == AnnouncementMessagesFile.AnnouncementType.ACTIONBAR) {
-			String message = Main.getAnnouncementMessagesFile().getMessage(announcementName);
-			int duration = Main.getAnnouncementMessagesFile().getDuration(announcementName);
-			return (frequency > 0 &&
-					duration > 0 &&
-					!message.isEmpty());
+
+	private void sendBroadcastAnnouncement(AnnouncementMessage announcementMessage) {
+
+		String permissionNeeded = announcementMessage.getPermissionNeeded();
+		String message = announcementMessage.getMessage().replace("&", "§");
+
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			if (permissionNeeded != null) {
+				if (player.hasPermission(permissionNeeded)) {
+					player.sendMessage(message);
+				}
+			} else {
+				player.sendMessage(message);
+			}
 		}
+	}
 
-		if (type == AnnouncementMessagesFile.AnnouncementType.BROADCAST || type == AnnouncementMessagesFile.AnnouncementType.MESSAGE) {
-			String message = Main.getAnnouncementMessagesFile().getMessage(announcementName);
-			return (frequency > 0 &&
-					!message.isEmpty());
+
+	private boolean isAnnouncementValid(String announcementName) {
+
+		AnnouncementMessagesFile announcementMessagesFile = Main.getFilesManager().getAnnouncementMessagesFile();
+
+		String type = announcementMessagesFile.getType(announcementName);
+		int frequency = announcementMessagesFile.getFrequency(announcementName);
+
+		switch (type) {
+
+			case "TITLE" -> {
+				String title = announcementMessagesFile.getTitle(announcementName);
+				String subtitle = announcementMessagesFile.getSubtitle(announcementName);
+				int duration = announcementMessagesFile.getDuration(announcementName);
+				return (frequency > 0 &&
+						duration > 0 &&
+						(!title.isEmpty() || !subtitle.isEmpty()));
+			}
+
+			case "ACTIONBAR" -> {
+				String message = announcementMessagesFile.getMessage(announcementName);
+				int duration = announcementMessagesFile.getDuration(announcementName);
+				return (frequency > 0 &&
+						duration > 0 &&
+						!message.isEmpty());
+			}
+
+			case "BROADCAST" -> {
+				String message = announcementMessagesFile.getMessage(announcementName);
+				return (frequency > 0 &&
+						!message.isEmpty());
+			}
 		}
 		return false;
-	}
-
-
-	private static List<String> getTitleAndSubtitle(String text) {
-		String[] textSplit = text.split("_SUBTITLE:_");
-		String title = textSplit[0].replace("_TITLE:_", "").replace("&", "§");
-		String subtitle = textSplit[0].replace("_SUBTITLE:_", "").replace("&", "§");
-		return List.of(title, subtitle);
 	}
 }
