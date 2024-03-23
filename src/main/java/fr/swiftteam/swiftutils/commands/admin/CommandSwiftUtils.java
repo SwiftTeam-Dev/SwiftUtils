@@ -1,7 +1,7 @@
 package fr.swiftteam.swiftutils.commands.admin;
 
 import fr.swiftteam.swiftutils.Main;
-import fr.swiftteam.swiftutils.managers.LoadingManager;
+import fr.swiftteam.swiftutils.managers.ModulesManager;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class CommandSwiftUtils implements CommandExecutor, TabCompleter {
@@ -23,7 +24,7 @@ public class CommandSwiftUtils implements CommandExecutor, TabCompleter {
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-		final String prefix = Main.getMessagesFile().getPrefix();
+		final String prefix = Main.getFilesManager().getMessagesFile().getPrefix();
 
 		if (!(sender instanceof Player player)) {
 			sendAboutMessageToConsole(sender);
@@ -31,7 +32,7 @@ public class CommandSwiftUtils implements CommandExecutor, TabCompleter {
 		} else {
 
 			// SEND ABOUT MESSAGE TO PLAYER WITHOUT PERMISSION
-			if (!player.hasPermission(Main.getConfigurationFile().getCommandPermission("swiftutils"))) {
+			if (!player.hasPermission(Main.getFilesManager().getConfigurationFile().getCommandPermission("swiftutils"))) {
 				sendAboutMessageToPlayer(player);
 
 			} else {
@@ -49,15 +50,15 @@ public class CommandSwiftUtils implements CommandExecutor, TabCompleter {
 
 						if (args.length < 2) {
 							sendHelpMessage(player, 1);
-						} else {
 
+						} else {
 							String secondArgument = args[1];
 							try {
 								int pageNumber = Integer.parseInt(secondArgument);
 								sendHelpMessage(player, pageNumber);
 
 							} catch (NumberFormatException e) {
-								player.sendMessage(prefix + Main.getMessagesFile().getError("argumentMustBeNumber"));
+								player.sendMessage(prefix + Main.getFilesManager().getMessagesFile().getError("argumentMustBeNumber"));
 							}
 						}
 
@@ -118,7 +119,7 @@ public class CommandSwiftUtils implements CommandExecutor, TabCompleter {
 
 	private void sendHelpMessage(CommandSender sender, int pageNumber) {
 
-		final String prefix = Main.getMessagesFile().getPrefix();
+		final String prefix = Main.getFilesManager().getMessagesFile().getPrefix();
 
 		if (pageNumber == 1) {
 			sender.sendMessage("§8§m-----------------------------------");
@@ -133,14 +134,14 @@ public class CommandSwiftUtils implements CommandExecutor, TabCompleter {
 			sender.sendMessage("§8§m-----------------------------------");
 
 		} else {
-			sender.sendMessage(prefix + Main.getMessagesFile().getError("helpPageNotFound"));
+			sender.sendMessage(prefix + Main.getFilesManager().getMessagesFile().getError("helpPageNotFound"));
 		}
 	}
 
 
 	private void sendVersionMessage(CommandSender sender) {
 
-		final String prefix = Main.getMessagesFile().getPrefix();
+		final String prefix = Main.getFilesManager().getMessagesFile().getPrefix();
 
 		sender.sendMessage(prefix + "§7This plugin is running §3v" + Main.getInstance().getDescription().getVersion());
 		sender.sendMessage(prefix + "§7Configuration File's Version: §ev" + Main.getConfigurationFileVersion());
@@ -150,12 +151,12 @@ public class CommandSwiftUtils implements CommandExecutor, TabCompleter {
 
 	private void reloadPlugin(CommandSender sender) {
 
-		final String prefix = Main.getMessagesFile().getPrefix();
+		final String prefix = Main.getFilesManager().getMessagesFile().getPrefix();
 
 		Instant reloadingStartInstant = Instant.now();
 		sender.sendMessage(prefix + "§7Reloading SwiftUtils...");
 
-		boolean reloadSuccess = LoadingManager.reloadPlugin();
+		boolean reloadSuccess = Main.getLoadingManager().reloadPlugin();
 
 		Instant reloadingEndInstant = Instant.now();
 		long milliseconds = Duration.between(reloadingStartInstant, reloadingEndInstant).toMillis();
@@ -170,17 +171,24 @@ public class CommandSwiftUtils implements CommandExecutor, TabCompleter {
 	// TAB COMPLETER
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+
 		List<String> options = new ArrayList<>();
 
+		List<String> firstArguments = Arrays.asList("help", "about", "versions", "reload");
+
 		if (args.length == 1) {
-			options.add("help");
-			options.add("about");
-			options.add("versions");
-			options.add("reload");
+			String input = args[0].toLowerCase();
+
+			for (String option : firstArguments) {
+				if (option.startsWith(input)) {
+					options.add(option);
+				}
+			}
 
 		} else if (args.length == 2) {
 			String firstArg = args[0];
-			if(firstArg.equalsIgnoreCase("help")) {
+
+			if (firstArg.equalsIgnoreCase("help")) {
 				options.add("1");
 			}
 		}
