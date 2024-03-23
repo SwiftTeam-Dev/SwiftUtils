@@ -1,72 +1,55 @@
 package fr.swiftteam.swiftutils.utilities.files.modules;
 
-import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.util.List;
 
 public class AnnouncementMessagesFile {
 
-
-	public enum AnnouncementType {
-		TITLE,
-		ACTIONBAR,
-		BROADCAST,
-		MESSAGE
-	}
+	private final YamlConfiguration yamlConfiguration;
 
 
-	private final Configuration yamlFile;
-
-
-	public AnnouncementMessagesFile(Configuration yamlFile) {
-		this.yamlFile = yamlFile;
+	public AnnouncementMessagesFile(YamlConfiguration yamlConfiguration) {
+		this.yamlConfiguration = yamlConfiguration;
 	}
 
 
 	public List<String> getEnabledAnnouncements() {
-		return yamlFile.getStringList("enabledAnnouncements");
+		return yamlConfiguration.getStringList("enabledAnnouncements");
 	}
 
 
-	public AnnouncementType getAnnouncementType(String announcementName) {
-		String typeName = yamlFile.getString("announcements." + announcementName + ".type").toUpperCase();
-
-		return switch (typeName) {
-			case "TITLE" -> AnnouncementType.TITLE;
-			case "ACTIONBAR" -> AnnouncementType.ACTIONBAR;
-			case "BROADCAST" -> AnnouncementType.BROADCAST;
-			case "MESSAGE" -> AnnouncementType.MESSAGE;
-			default -> null;
-		};
+	public String getType(String announcementName) {
+		return yamlConfiguration.getString("announcements." + announcementName + ".type").toUpperCase();
 	}
 
 
-	public int getFrequency(String announcementName) {
-		return yamlFile.getInt("announcements." + announcementName + ".frequency");
+	public Integer getFrequency(String announcementName) {
+		return yamlConfiguration.getInt("announcements." + announcementName + ".frequency");
 	}
 
 
-	public int getDuration(String announcementName) {
-		return yamlFile.getInt("announcements." + announcementName + ".duration");
+	public Integer getDuration(String announcementName) {
+		return yamlConfiguration.getInt("announcements." + announcementName + ".duration");
 	}
 
 
 	public String getPermissionNeeded(String announcementName) {
-		return yamlFile.getString("announcements." + announcementName + ".permissionNeeded");
+		return yamlConfiguration.getString("announcements." + announcementName + ".permissionNeeded");
 	}
 
 
 	public String getMessage(String announcementName) {
-		return yamlFile.getString("announcements." + announcementName + ".message");
+		return yamlConfiguration.getString("announcements." + announcementName + ".message");
 	}
 
 
 	public String getTitle(String announcementName) {
-		return yamlFile.getString("announcements." + announcementName + ".title");
+		return yamlConfiguration.getString("announcements." + announcementName + ".title");
 	}
 
 
 	public String getSubtitle(String announcementName) {
-		return yamlFile.getString("announcements." + announcementName + ".subtitle");
+		return yamlConfiguration.getString("announcements." + announcementName + ".subtitle");
 	}
 }
