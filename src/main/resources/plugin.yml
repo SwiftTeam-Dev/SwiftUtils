@@ -2,7 +2,7 @@ main: fr.swiftteam.swiftutils.Main
 
 
 name: SwiftUtils
-version: 1.0.0-alpha2
+version: 1.0.0-beta1
 api-version: 1.13
 description: Your new core plugin for your Minecraft server.
 
