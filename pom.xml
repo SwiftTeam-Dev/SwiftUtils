@@ -6,7 +6,7 @@
 
 	<groupId>fr.swiftteam.swiftutils</groupId>
 	<artifactId>SwiftUtils</artifactId>
-	<version>1.0.0-alpha2</version>
+	<version>1.0.0-beta1</version>
 
 
 	<build>
@@ -31,12 +31,18 @@
 			<url>https://repo.papermc.io/service/rest/repository/browse/maven-public/</url>
 		</repository>
 
+		<!-- Maven Repository -->
+		<repository>
+			<id>central</id>
+			<url>https://repo1.maven.org/maven2/</url>
+		</repository>
+
 	</repositories>
 
 
 	<dependencies>
 
-		<!-- SpigotMC 1.8.8 -->
+		<!-- SpigotMC 1_8_R3 -->
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
@@ -44,7 +50,7 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- NMS 1.8.8 -->
+		<!-- NMS v1_8_R3 -->
 		<dependency>
 			<groupId>local.spigot.nms</groupId>
 			<artifactId>AllSpigotNMS</artifactId>
@@ -52,6 +58,14 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/../../NMS VERSIONS/NMS-1.8.8-R0.1-SNAPSHOT-latest.jar</systemPath>
 		</dependency>
+
+		<!-- SnakeYAML -->
+		<dependency>
+			<groupId>org.yaml</groupId>
+			<artifactId>snakeyaml</artifactId>
+			<version>2.2</version>
+		</dependency>
+
 
 	</dependencies>
 
