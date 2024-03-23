@@ -1,12 +1,10 @@
 package fr.swiftteam.swiftutils.modules.AnnouncementMessages;
 
-import fr.swiftteam.swiftutils.utilities.files.modules.AnnouncementMessagesFile;
-
 public class AnnouncementMessage {
 
 
 	protected String name;
-	protected AnnouncementMessagesFile.AnnouncementType type;
+	protected String type;
 
 	protected int frequency;
 	protected int duration;
@@ -18,7 +16,7 @@ public class AnnouncementMessage {
 	protected String subtitle;
 
 
-	protected AnnouncementMessage(String name, AnnouncementMessagesFile.AnnouncementType type,
+	protected AnnouncementMessage(String name, String type,
 	                              int frequency, int duration,
 	                              String permissionNeeded,
 	                              String message, String title, String subtitle) {
@@ -37,12 +35,7 @@ public class AnnouncementMessage {
 	}
 
 
-	protected String getName() {
-		return name;
-	}
-
-
-	protected AnnouncementMessagesFile.AnnouncementType getType() {
+	protected String getType() {
 		return type;
 	}
 
