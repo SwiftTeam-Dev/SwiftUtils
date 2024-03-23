@@ -2,23 +2,22 @@ package fr.swiftteam.swiftutils.managers;
 
 import fr.swiftteam.swiftutils.Main;
 import fr.swiftteam.swiftutils.commands.admin.CommandSwiftUtils;
-import fr.swiftteam.swiftutils.utilities.ConsoleLogger;
 import org.bukkit.Bukkit;
 
 public class LoadingManager {
 
 
-	public static boolean loadPlugin() {
+	public boolean loadPlugin() {
 
 		// INITIALIZE NMS
-		ConsoleLogger.console("");
-		ConsoleLogger.console("§7Implementing NMS...");
+		Main.getConsoleLogger().console("");
+		Main.getConsoleLogger().console("§7Implementing NMS...");
 
 		if (Main.initializeNMSUtils()) {
-			ConsoleLogger.console("§7Implementation §acomplete §7for §eNMS " + getServerVersion());
+			Main.getConsoleLogger().console("§7Implementation §acomplete §7for §eNMS " + getServerVersion());
 
 		} else {
-			ConsoleLogger.console("§cAn error occurred during implementation for §6" + getServerVersion());
+			Main.getConsoleLogger().console("§cAn error occurred during implementation for §6" + getServerVersion());
 		}
 
 		// CONFIGURATION AND MESSAGES FILES LOADING
@@ -35,13 +34,13 @@ public class LoadingManager {
 		registerCommands();
 
 		// MODULES ENABLING
-		ModulesManager.enableModules();
+		Main.getModulesManager().enableModules();
 
 		return true;
 	}
 
 
-	public static boolean reloadPlugin() {
+	public boolean reloadPlugin() {
 
 		boolean reloadSuccess = true;
 
@@ -60,75 +59,75 @@ public class LoadingManager {
 		}
 
 		// MODULES ENABLING
-		ModulesManager.enableModules();
+		Main.getModulesManager().enableModules();
 
 		return reloadSuccess;
 	}
 
 
-	private static void registerCommands() {
+	private void registerCommands() {
 
-		ConsoleLogger.console("");
-		ConsoleLogger.console("§7Commands registration...");
+		Main.getConsoleLogger().console("");
+		Main.getConsoleLogger().console("§7Commands registration...");
 
 		Main.getInstance().getCommand("swiftUtils").setExecutor(new CommandSwiftUtils());
 
-		ConsoleLogger.console("§7Commands registration §acomplete§7!");
+		Main.getConsoleLogger().console("§7Commands registration §acomplete§7!");
 
 	}
 
 
-	private static boolean checkConfigurationFileVersion() {
+	private boolean checkConfigurationFileVersion() {
 
-		ConsoleLogger.console("");
-		ConsoleLogger.console("§7Checking for configuration file version...");
+		Main.getConsoleLogger().console("");
+		Main.getConsoleLogger().console("§7Checking for configuration file version...");
 		if (Main.getFilesManager().getConfigurationFile().getConfigVersion().equals(Main.getConfigurationFileVersion())) {
-			ConsoleLogger.console("§7Your configuration file is §aup to date§7.");
+			Main.getConsoleLogger().console("§7Your configuration file is §aup to date§7.");
 			return true;
 
 		} else {
-			ConsoleLogger.console("§7A new version is §aavailable §7for your configuration file.");
-			ConsoleLogger.console("§6Updating of the configuration file...");
+			Main.getConsoleLogger().console("§7A new version is §aavailable §7for your configuration file.");
+			Main.getConsoleLogger().console("§6Updating of the configuration file...");
 
 			if (Main.getFilesManager().saveConfigurationFile()) {
-				ConsoleLogger.console("§aYour configuration file has been updated.");
+				Main.getConsoleLogger().console("§aYour configuration file has been updated.");
 				return true;
 			} else {
-				ConsoleLogger.console("§cAn error has occurred while saving your current configuration file.");
-				ConsoleLogger.console("§7- §ePlease save your current configuration file, delete it,");
-				ConsoleLogger.console("§7- §eand finally restart the plugin to create a new one.");
+				Main.getConsoleLogger().console("§cAn error has occurred while saving your current configuration file.");
+				Main.getConsoleLogger().console("§7- §ePlease save your current configuration file, delete it,");
+				Main.getConsoleLogger().console("§7- §eand finally restart the plugin to create a new one.");
 				return false;
 			}
 		}
 	}
 
 
-	private static boolean checkMessagesFileVersion() {
+	private boolean checkMessagesFileVersion() {
 
-		ConsoleLogger.console("");
-		ConsoleLogger.console("§7Checking for message file version...");
+		Main.getConsoleLogger().console("");
+		Main.getConsoleLogger().console("§7Checking for message file version...");
 		if (Main.getFilesManager().getMessagesFile().getMessagesVersion().equals(Main.getMessagesFileVersion())) {
-			ConsoleLogger.console("§7Your messages file is §aup to date§7.");
+			Main.getConsoleLogger().console("§7Your messages file is §aup to date§7.");
 			return true;
 
 		} else {
-			ConsoleLogger.console("§7A new version is §aavailable §7for your configuration file.");
-			ConsoleLogger.console("§6Updating of the configuration file...");
+			Main.getConsoleLogger().console("§7A new version is §aavailable §7for your configuration file.");
+			Main.getConsoleLogger().console("§6Updating of the configuration file...");
 
 			if (Main.getFilesManager().saveMessagesFile()) {
-				ConsoleLogger.console("§aYour message file has been updated.");
+				Main.getConsoleLogger().console("§aYour message file has been updated.");
 				return true;
 			} else {
-				ConsoleLogger.console("§cAn error has occurred while saving your current message file.");
-				ConsoleLogger.console("§7- §ePlease save your current message file, delete it,");
-				ConsoleLogger.console("§7- §eand finally restart the plugin to create a new one.");
+				Main.getConsoleLogger().console("§cAn error has occurred while saving your current message file.");
+				Main.getConsoleLogger().console("§7- §ePlease save your current message file, delete it,");
+				Main.getConsoleLogger().console("§7- §eand finally restart the plugin to create a new one.");
 				return false;
 			}
 		}
 	}
 
 
-	public static String getServerVersion() {
+	public String getServerVersion() {
 		try {
 			return Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
 		} catch (ArrayIndexOutOfBoundsException whatVersionAreYouUsingException) {
