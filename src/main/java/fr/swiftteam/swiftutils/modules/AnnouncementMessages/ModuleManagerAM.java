@@ -41,11 +41,13 @@ public class ModuleManagerAM {
 		return errorsCount == 0;
 	}
 
+
 	public void unloadAnnouncementMessagesModule() {
 		cancelCurrentAnnouncementTasks();
 		Main.getModulesManager().setModuleDisable("announcementMessages");
 
 	}
+
 
 	protected void loadAnnouncementMessage(String announcementName) {
 
