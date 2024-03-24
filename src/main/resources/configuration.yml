@@ -32,7 +32,7 @@ config-version: "1.0"
 # More detailed information about each module is available here:
 # https://swiftteam.gitbook.io/wiki/v/swiftutils/configuration/modules
 modules:
-  announcementMessages: true
+  announcementMessages: false
 
 ############################################################
 # +------------------------------------------------------+ #
