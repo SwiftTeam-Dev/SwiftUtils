@@ -1,6 +1,9 @@
-package fr.swiftteam.swiftutils.utilities.files;
+package fr.swiftteam.swiftutils.managers;
 
 import fr.swiftteam.swiftutils.Main;
+import fr.swiftteam.swiftutils.utilities.files.ConfigurationFile;
+import fr.swiftteam.swiftutils.utilities.files.LocationsFile;
+import fr.swiftteam.swiftutils.utilities.files.MessagesFile;
 import fr.swiftteam.swiftutils.utilities.files.modules.AnnouncementMessagesFile;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -12,7 +15,10 @@ public class FilesManager {
 
 	protected ConfigurationFile configurationFile;
 	protected MessagesFile messagesFile;
+
 	protected AnnouncementMessagesFile announcementMessagesFile;
+
+	protected LocationsFile locationsFile;
 
 
 	public void loadConfigurationFile() {
@@ -22,6 +28,11 @@ public class FilesManager {
 
 	public void loadMessagesFile() {
 		loadYAMLFile("messages");
+	}
+
+
+	public void loadLocationsFile() {
+		loadYAMLFile("data/locations");
 	}
 
 
@@ -51,14 +62,22 @@ public class FilesManager {
 
 		YamlConfiguration yamlConfiguration = YamlConfiguration.loadConfiguration(file);
 
-		if (fileName.equals("configuration")) {
-			configurationFile = new ConfigurationFile(yamlConfiguration);
+		switch (fileName) {
+			case "configuration":
+				configurationFile = new ConfigurationFile(yamlConfiguration);
+				break;
 
-		} else if (fileName.equals("messages")) {
-			messagesFile = new MessagesFile(yamlConfiguration);
+			case "messages":
+				messagesFile = new MessagesFile(yamlConfiguration);
+				break;
 
-		} else if (fileName.equals("modules/announcementMessages")) {
-			announcementMessagesFile = new AnnouncementMessagesFile(yamlConfiguration);
+			case "data/locations":
+				locationsFile = new LocationsFile(yamlConfiguration);
+				break;
+
+			case "modules/announcementMessages":
+				announcementMessagesFile = new AnnouncementMessagesFile(yamlConfiguration);
+				break;
 		}
 	}
 
@@ -95,9 +114,13 @@ public class FilesManager {
 		return configurationFile;
 	}
 
-
 	public MessagesFile getMessagesFile() {
 		return messagesFile;
+	}
+
+
+	public LocationsFile getLocationsFile() {
+		return locationsFile;
 	}
 
 
