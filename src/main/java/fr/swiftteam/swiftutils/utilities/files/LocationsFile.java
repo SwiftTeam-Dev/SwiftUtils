@@ -19,4 +19,9 @@ public class LocationsFile {
 		}
 		return null;
 	}
+
+
+	public void setSpawnLocation(String spawnLocation) {
+        yamlConfiguration.set("spawnLocation", spawnLocation);
+    }
 }
