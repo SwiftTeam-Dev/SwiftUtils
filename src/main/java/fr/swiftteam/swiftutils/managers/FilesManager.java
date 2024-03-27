@@ -5,6 +5,7 @@ import fr.swiftteam.swiftutils.utilities.files.ConfigurationFile;
 import fr.swiftteam.swiftutils.utilities.files.LocationsFile;
 import fr.swiftteam.swiftutils.utilities.files.MessagesFile;
 import fr.swiftteam.swiftutils.utilities.files.modules.AnnouncementMessagesFile;
+import fr.swiftteam.swiftutils.utilities.files.modules.PlayerSpawnFile;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.*;
@@ -17,6 +18,7 @@ public class FilesManager {
 	protected MessagesFile messagesFile;
 
 	protected AnnouncementMessagesFile announcementMessagesFile;
+	protected PlayerSpawnFile playerSpawnFile;
 
 	protected LocationsFile locationsFile;
 
@@ -126,5 +128,9 @@ public class FilesManager {
 
 	public AnnouncementMessagesFile getAnnouncementMessagesFile() {
 		return announcementMessagesFile;
+	}
+
+	public PlayerSpawnFile getPlayerSpawnFile() {
+		return playerSpawnFile;
 	}
 }
