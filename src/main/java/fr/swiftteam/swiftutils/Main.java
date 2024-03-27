@@ -5,7 +5,7 @@ import fr.swiftteam.swiftutils.managers.ModulesManager;
 import fr.swiftteam.swiftutils.nms.NMSUtils;
 import fr.swiftteam.swiftutils.nms.NMS_v1_8_R3;
 import fr.swiftteam.swiftutils.utilities.ConsoleLogger;
-import fr.swiftteam.swiftutils.utilities.files.FilesManager;
+import fr.swiftteam.swiftutils.managers.FilesManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
