@@ -2,6 +2,9 @@ package fr.swiftteam.swiftutils.managers;
 
 import fr.swiftteam.swiftutils.Main;
 import fr.swiftteam.swiftutils.commands.admin.CommandSwiftUtils;
+import fr.swiftteam.swiftutils.commands.playerSpawn.CommandDelspawn;
+import fr.swiftteam.swiftutils.commands.playerSpawn.CommandSetspawn;
+import fr.swiftteam.swiftutils.commands.playerSpawn.CommandSpawn;
 import org.bukkit.Bukkit;
 
 public class LoadingManager {
@@ -30,11 +33,11 @@ public class LoadingManager {
 		// CHECKING MESSAGES FILE VERSION
 		checkMessagesFileVersion();
 
-		// COMMANDS REGISTRATION
-		registerCommands();
-
 		// MODULES ENABLING
 		Main.getModulesManager().enableModules();
+
+		// COMMANDS REGISTRATION
+		registerCommands();
 
 		return true;
 	}
@@ -71,6 +74,23 @@ public class LoadingManager {
 		Main.getConsoleLogger().console("§7Commands registration...");
 
 		Main.getInstance().getCommand("swiftUtils").setExecutor(new CommandSwiftUtils());
+
+		// COMMANDS REGISTRATION FOR PLAYER SPAWN MODULE
+
+		if (Main.getModulesManager().isEnabled("playerSpawn")) {
+
+			if (Main.getFilesManager().getPlayerSpawnFile().isCommandEnabled("setspawn")) {
+				Main.getInstance().getCommand("setspawn").setExecutor(new CommandSetspawn());
+			}
+
+			if (Main.getFilesManager().getPlayerSpawnFile().isCommandEnabled("delspawn")) {
+				Main.getInstance().getCommand("delspawn").setExecutor(new CommandDelspawn());
+			}
+
+			if (Main.getFilesManager().getPlayerSpawnFile().isCommandEnabled("spawn")) {
+				Main.getInstance().getCommand("spawn").setExecutor(new CommandSpawn());
+			}
+		}
 
 		Main.getConsoleLogger().console("§7Commands registration §acomplete§7!");
 
