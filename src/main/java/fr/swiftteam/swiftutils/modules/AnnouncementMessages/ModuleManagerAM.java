@@ -1,4 +1,4 @@
-package fr.swiftteam.swiftutils.modules.AnnouncementMessages;
+package fr.swiftteam.swiftutils.modules.announcementMessages;
 
 import fr.swiftteam.swiftutils.Main;
 import fr.swiftteam.swiftutils.utilities.files.modules.AnnouncementMessagesFile;

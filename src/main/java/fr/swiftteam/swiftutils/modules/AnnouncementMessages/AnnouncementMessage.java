@@ -1,4 +1,4 @@
-package fr.swiftteam.swiftutils.modules.AnnouncementMessages;
+package fr.swiftteam.swiftutils.modules.announcementMessages;
 
 public class AnnouncementMessage {
 
