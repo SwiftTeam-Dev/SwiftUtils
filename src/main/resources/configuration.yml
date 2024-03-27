@@ -33,6 +33,7 @@ config-version: "1.0"
 # https://swiftteam.gitbook.io/wiki/v/swiftutils/configuration/modules
 modules:
   announcementMessages: false
+  playerSpawn: false
 
 ############################################################
 # +------------------------------------------------------+ #
